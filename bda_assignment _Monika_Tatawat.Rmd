@@ -1,0 +1,105 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+```{r}
+
+#Ensure that the data set is ???clean???.
+library(moments)
+library(car)
+attach(A3)
+View(A3)
+summary(A3)
+is.na(A3)
+
+#detect outliers
+bx<-boxplot(A3)
+str(bx)
+
+x2 <- A3[!(A3 %in% bx$out)]
+x2
+
+```
+
+
+```{r}
+
+#Conduct useful analyses describing the data including, if appropriate, graphs and figures.
+plot(A3)
+
+
+library(ggplot2)
+ggplot(data = A3) + 
+  geom_point(mapping = aes(x = A3$V1, y = A3$V12))
+
+ggplot(data = A3) + 
+  geom_point(mapping = aes(x = A3$V2, y = A3$V12))
+
+ggplot(data= A3)+ 
+  geom_point(mapping = aes(x = A3$V3, y = A3$V12))
+
+plot(A3$V4, A3$V12, main="Scatterplot Example", 
+     xlab="INDEPENDENT VARIABLE", ylab="DEPENDENT VARIABLE", pch=19)
+
+# Basic Scatterplot Matrix
+pairs(~A3$V12+ V1+V2+V3+V4+V5+V6+V7+V8+V9+V10+V11,data= A3, 
+      main="Simple Scatterplot Matrix")
+
+corr_matrix <- cor(A3)
+
+# with circles
+library(corrplot)
+corrplot(corr_matrix)
+
+# with numbers and lower
+corrplot(corr_matrix,
+         method = 'number',
+         type = "lower")
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
