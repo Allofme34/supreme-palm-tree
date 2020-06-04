@@ -1,0 +1,568 @@
+---
+title: "bd"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+
+---
+title: "Big Data Assignment 1"
+output: html_document
+---
+***
+
+### <span style="color:red"> Due Date: Wednesday, Feb. 20, 2019, before class </span>
+***
+#### A note from your TAs:
+
+Hi! We recognize that this file is a large file and may be a bit overwhelming at first -- don't worry! We'll be here to help you with any and all questions you may have. With that being said, there are a couple of house keeping notes:
+
+1. For some of the questions below, you'll see that we've included code chunks underneath the question. This is where you'll type in the code that will be grade. **Please do not** modify the chunk's properties (aka the `results = FALSE`) that you'll see at the top of each chunk. Even with these modifications, you can still run your code and view your specific results.
+
+2. You will also see `<br>` pieces throughout the document. **Please do not** delete these tags, as they are for formatting purposes. If you want to add text to your responses, please ensure that there is an empty line between your last line and any of the `<br>` tags. 
+
+3. When you submit your assignment, please just submit this file and rename it  `bigdata_asst1_lastname.Rmd`
+
+Thank you so much for reading this, and good luck with the assignment!
+
+***
+
+### Question 1: Using R built-in datasets.  
+
+a. Use the R help function to identify 2 built-in datasets.  Provide a 1-2 sentence description of one of them. Write down the code to load a built-in dataset for R.
+```{r results= False}
+data("Seatbelts")
+View(Seatbelts)
+data("mtcars")
+View(mtcars)
+str(Seatbelts)
+
+# Description of data set seatbelts 
+#seatbelt data contains 192 rows and 8 columns and it is a time series.
+
+
+```
+
+
+
+
+
+<br>
+
+Use the R dataset ???Seatbelts??? to answer the following:
+
+b. What does the dataset contain?  There are several ways to figure this out.  Use two different ways.  One way is just to type ???Seatbelts??? at the R prompt.  Other commands to explore are `str( )`, `summary( )`, `dim( )`, `nrow()`, and `ncol( )` where you put the name of the database within the parenthesis.  Apply each of these functions to Seatbelts. Furthermore, apply `is.na()` and `is.null()` to check to see if there are any missing data from our datasets.
+
+
+
+```{r results = FALSE}
+str(Seatbelts)
+nrow(Seatbelts)
+ncol(Seatbelts)
+summary(Seatbelts)
+dim(Seatbelts)
+is.na(Seatbelts)
+is.null(Seatbelts)
+#there is no missing data 
+```
+
+<br>
+
+c. How is the built-in dataset ???UKDriversDeath??? different from ???Seatbelts????
+```{r results = FALSE}
+data("UKDriverDeaths")
+attach(UKDriverDeaths)
+View(UKDriverDeaths)
+str(UKDriverDeaths)
+#data UKDriverDeaths is different from Seatbelt since there is one column and 192 rows. 
+
+```
+
+
+
+<br>
+
+d. What does `Seatbelts[1,1]` return?  What does `Seatbelts[29, 5]` return?  Describe in 1 sentence what is going on.
+```{r results = FALSE}
+ Seatbelts[1,1]
+ # the above command gave the data value which is there in first row and first column of the whole dataset. 
+ #The Seatbelt[1,1] gives drivers killed which is 107. 
+Seatbelts[29,5]
+ # the above command gave the data value which is there in twenty ninth row and fifth column of the whole dataset. 
+ #The Seatbelt[29,5] gives kilometers that is 13587.
+
+```
+
+
+<br>
+
+e. If you were interested in analyzing deaths due to car accidents in the UK, describe how you could combine Seatbelts and UKDriversDeath to do so.  (You do not need actually do this.)
+```{r results = FALSE}
+cbind(Seatbelts, UKDriverDeaths)
+ # TO combine the datasets  
+```
+
+
+<br>
+
+f. Create a variable `Bob` and set it to True.  Type `Bob` and what does R return.  (Note that R is case sensitive so ???Bob??? does not equal ???bob???.)  Type `Bob+Bob`.  What is the result and what is going on?
+```{r results = FALSE}
+Bob<- TRUE
+Bob 
+Bob+Bob
+```
+
+
+<br>
+
+g. What is vector recycling in R?  (It applies to all vectors not just logical ones.)  Create a vector of two logical values and another of 5 logical values.  Ask R if those two vectors are equal.  What happens and what is going on?
+```{r results = FALSE}
+a <-c(1,2)
+b <- c(5,6,7,8,9)
+a==b # to check whether the two vectors are equal or not. So, after running the code it is evident that the vector a and b are not equal as the longer object length is not a multiple of shorter object length. 
+
+
+
+```
+
+
+
+****
+
+### Question 2: Basic Data Manipulation
+
+a. Download the PUMS dataset from Canvas, file name: `psam_p34.csv`. This is the  Public Use Micro Dataset, a subset from the ACS survey.  You can also find on Canvas the definition of variables for this dataset (PUMS_Data_Dictionary_2017). Follow the directions below to import a dataset into RStudio
+    * Go to ???File??? tab at top of Computer Screen
+    * Under ???Import Dataset???, choose ???From Text(base)???
+    * Navigate to the folder in which dataset is downloaded
+    * Click Import to continue through with the dataset
+    * **Note**: R Studio actually provides you with the code to import datasets. Type that code below
+
+```{r results = FALSE}
+
+bda <- read.table("/Users/monicatatawat/Desktop/bda.csv",header= TRUE,sep=",")
+View(bda)
+getwd()
+
+```
+
+<br>
+
+b. Add a new column to the data frame and fill it with 10 in all rows. 
+
+```{r results = FALSE}
+ncol(bda)
+nrow(bda)
+bda$new= 88115
+bda$new = c(10)
+View(bda)
+```
+
+<br>
+
+c. Add a new column to the data frame and copy the data from an existing column in the dataset, `PWGTP80` into this column.
+
+```{r results = FALSE }
+
+bda$a = bda$`PWGTP80` 
+ View(bda)
+ summary(bda)
+```
+
+<br>
+
+d. Delete the column `PWGTP74`
+
+```{r results = FALSE}
+bda$'PWGTP74'<- NULL
+View(bda)
+
+```
+
+<br>
+
+e. Rename the column `CIT` as `CHARCT`
+
+```{r results = FALSE}
+names(bda)[11] <- 'CHARCT'
+View(bda)
+
+
+```
+
+
+***
+
+### Question 3: Subsetting & Sorting Data
+
+Subsetting data is the process of retrieving just the parts of larger datasets that are of specific interest for the project at hand. It is a very important component of data management and there are several ways that one can subset data in R. 
+
+a. Complete the data subsetting tutorial at this [website](https://stats.idre.ucla.edu/r/faq/frequently-asked-questions-about-rhow-can-i-subset-a-data-setthe-r-program-as-a-text-file-for-all-the-code-on-this-page-subsetting-is-a-very-important-component/) 
+
+```{r results = FALSE}
+
+
+```
+
+<br>
+
+
+b. Sort the data according to the variable `MAR` in ascending order
+
+```{r results = FALSE}
+bda[order(bda$MAR),]
+View(bda)
+
+```
+
+<br>
+
+
+c. Sort the data in ascending order by `PWGTP3` and descending order by `PWGTP7` together. 
+
+```{r results = FALSE}
+#Sorting the data in ascending order by `PWGTP3`
+bda[order(bda$PWGTP3),]
+
+#descending order by `PWGTP7`
+bda[order(-bda$PWGTP7),]
+View(bda)
+
+```
+
+<br>
+
+
+d. Create a subset of the data by ???keeping??? the first 10 variables in the PUMS dataset (`RT` to `AGEP`) or ???dropping??? the other variables. 
+
+```{r results = FALSE}
+colnames(bda)
+PUMS <- subset(bda)
+NewPUMS<-PUMS[,1:10]
+View(NewPUMS)
+
+```
+
+<br>
+
+e. Create a subset of the data by ???keeping??? the first 10 observations. 
+
+```{r results = FALSE}
+SupernewPUMS<- subset(NewPUMS)
+SuperdupernewPMS<- SupernewPUMS[1:10,]
+View(SuperdupernewPMS)
+
+```
+
+<br>
+
+f. Take a random sample of the dataset of size 50:
+    * with replacement
+  
+```{r results = FALSE}
+sample(bda,size=50,replace=FALSE)
+
+```
+    * without replacement
+```{r results = FALSE}
+sample(bda,size=50,replace= TRUE)
+
+```
+
+***
+
+### Question 4: Descriptive Stats
+
+For this question, we will use one of the most common R built-in datasets, `mtcars`. The easiest way to get descriptive statistics in R is using the `summary()` command. 
+```{r results = FALSE}
+summary(mtcars)
+```
+
+
+<br>
+
+a. Find the summary statistics of the `mtcars` dataset using the `summary()` command. 
+```{r results = FALSE}
+
+summary(mtcars)
+```
+
+
+<br> summary(mt)
+
+b. Another way to get more detailed descriptive statistics is to use the `pastecs` package. 
+    * Install the `pastecs` package:
+        * Type `install.packages("pastecs")` and load it from the library by typing `library(pastecs)`
+        
+    * Find the command to get the descriptive statistics using this package. (Hint: your output should give you a minimum, maximum, range, SE. mean, C.I Mean, standard deviation and coefficient of variance etc)
+```{r results = FALSE}
+library(pastecs)
+stat.desc(mtcars)
+
+
+```
+    
+
+<br>
+    
+c. There are also separate commands to get the mean, median and mean statistics. Find the mean, median and mode of the variable `mpg` by separate commands. 
+```{r results = FALSE}
+attach(mtcars)
+mean(mpg)
+median(mpg)
+mode(mpg)
+
+```
+
+<br>
+
+d. Find the length of the variable `qtsec`. Why are the lengths of all the variables the same? 
+
+```{r results = FALSE}
+View(mtcars)
+length(qsec)
+
+
+#for vectors and list the length of the varibles is the number of elements. in mtcars dataset every column has equal number of elements. 
+
+```
+
+<br>
+
+e. Find the maximum and minimum value of the `mpg` variable.
+
+```{r results = FALSE}
+max(mpg)
+min(mpg)
+
+```
+
+
+<br>
+
+f. Determine the location i.e index of the maximum and minimum value you found in part e. (Hint: Try the `which.max` command).
+```{r results = FALSE}
+which.max(mpg)
+which.min(mpg)
+
+```
+
+
+
+***
+
+### Question 5: Putting it all together
+
+#### Downloading a dataset:
+
+1. Go to [this link](https://www.kaggle.com/aparnashastry/building-permit-applications-data#Building_Permits.csv) on Kaggle. This should take you to a page for the "San Francisco Building Permits" dataset. (**note**: you will have to create an account in roder to download this dataset. Kaggle is a PHENOMENAL resource for datasets and data-related explorations, so making this account now will help you for future assignments.)
+    
+2. Once you???ve downloaded this dataset, time to **import** the dataset into RStudio (Refer to Question 2 for tips on importing datasets). Type in the code that imports this dataset below: (After a while, you will see that the dataset ???`Building_Permits`??? is available in your ???Global Variable??? explorer in RStudio)
+
+```{r results = FALSE}
+Building_Permits <- read.table("/Users/monicatatawat/Desktop/Building_Permits.csv",header= TRUE,sep=',',fill=TRUE)
+View(Building_Permits)
+```
+  
+    
+<br>
+
+#### Preparing for data manipulation:
+
+1. If you???ve successfully imported the dataset, you should have a `Building_Permits` variable in your global explorer  -- **congrats!** As per convention, it???s always a great idea to create a **copy** of your dataset, so that whatever manipulations you make don???t affect the original dataset. With that being said, make a copy of the dataset!
+        * **hint:** Name the copy whatever you would like and literally use the `<-` operator to assign your newly named variable to the existing `Building_Permits` dataset
+
+```{r results = FALSE}
+buildingdata<-(Building_Permits)
+View(buildingdata)
+
+```
+        
+<br>
+
+#### Exploring the dataset:
+
+1. Thus far, we???ve downloaded the dataset and made copies to prevent against any future accidents. Now, let???s explore our dataset a little further and really understand what we???re dealing with here:
+
+2. Reproduce the following printed statement  **with code** and **replace X** with the number of rows and **replace Y**  with the number of columns of your dataset :
+`Dimensions:  X rows,  Y columns`
+
+  * **hints**:
+    1. you'll find the [R `cat()`](https://www.rdocumentation.org/packages/base/versions/3.5.2/topics/cat) function really helpful
+    2. The `dim()` function from question 1 will be really useful!  (Also, there are two components that are returned by calling the `dim()` function, and you can access each portion with a proper index call (example: `dim(???<dataset_name???>)[index]`)
+    3. You can use the cat() function as follows:
+    `cat(???<String: ???, data, ???<another string>???, more data)`
+
+```{r results = FALSE}
+attach(buildingdata)
+u<-dim(Building_Permits)
+cat("Dimensions:", u[1], "rows", u[2], "columns")
+
+
+
+
+
+``` 
+3. Generally, if we???re dealing with data that is numeric, it might be helpful to look for the averages in a dataset. Take a quick look at the different columns of this dataset -- do you think it???s appropriate to analyze stats like the mean, median, mode for the numeric columns? Why or why not? 
+```{r results = FALSE}
+
+#if the dataset is numeric or certain columns are numeric in the dataset, it is important to analyse the basic statistics measures like mean, median, mode. Also, the 5- number summary which is minimum, first quartile, median, third quartile, maximum is helpful for analysing the dataset.The median gives a measure of the centre of the data the minimum and maximum give the range of the data. While the 1st and 3rd quartiles give a sense of the spread of the data, especially when compared to the minimum, maximum, and median.
+
+```
+
+
+
+  
+4. We know that we???re dealing with an incredible number of rows in our dataset (if you discovered the dimensions properly, we???re looking at ~200k rows). However, for some columns, we don???t have ~200k unique values. Let???s discover some unique values. Find the number of unique values that are in the `Existing.Use` and the `Neighborhoods...Analysis.Boundaries` columns and print your results in the following format, replacing X and Y with their appropriate values (Please don???t just *write* in the numbers, we want to see you **use** the functions in R to figure this out!) <br>`The Existing.Use column has X unique values and the Neighborhoods...Analysis.Boundaries has Y unique values`
+
+  * **hints:**
+    1. `cat()` will be your best friend!
+    2. There is literally a function called [`unique()`](https://www.rdocumentation.org/packages/base/versions/3.5.2/topics/unique)-- figure out how to manipulate this!
+
+
+```{r results = FALSE}
+exist <- unique(Building_Permits$`Existing Use`)
+neighb <- unique(Building_Permits$`Neighborhoods - Analysis Boundaries`)
+cat("The existing.use column has", length(exist), "unique values and Neighborhoods Analysis has ", length(neighb) )
+
+
+```
+
+
+5. This is the DIY part of your data exploration -- find something interesting about the data using R code, and tell us why you think it???s interesting!
+    ```{r results = FALSE}
+    library(ggplot2)
+    buildingdata$`Number of Existing Stories`= as.factor(buildingdata$`Number of Existing Stories`)
+     buildingdata$`Number of Proposed Stories`= as.factor(buildingdata$`Number of Proposed Stories`)
+ggplot(buildingdata) + geom_bar(aes(x= 'number of Proposed Stories',fill= 'Number of Existing Stories', group= Location )) 
+```
+        
+<br>
+
+#### Data Manipulation
+
+*Let???s draw upon Question 3: Subsetting datasets. Oftentimes, when we???re working with data, we???re not concerned about every single column in a dataset. Instead, there is only a handful of columns that are important to our needs. With this in mind, we???ll subset our dataset so that we don???t have to continually sift through relatively useless information in order to use our data. To this effect, we???re going to create 2 individual ???datasets??? that are simply subsets of our main, overarching dataset.*s
+    
+a. Create a subset of your **copy** of the `Building_Permits` dataset that only contains the following columns: `Permit.Number`, `Description`, `Existing.Use`
+```{r results = FALSE}
+
+a1 <- subset(Building_Permits, select = c(1, 13, 28))
+
+View(a1)
+
+```
+b. Create a second subset of your **copy** of the `Building_Permits` dataset that only contains the following columns: `Permit.Number`, `Proposed.Use` . However, we want this subset to only access entries from row 50,000 to 60,000.
+    * **hints:**
+      * when subsetting for specific entries in a dataset, we can actually do the following: `dataset[index, index][<condition>]`
+      * To access rows in a column, we specify the index to be `dataset[index,]`. The lefthand side is for specifying rows, the righthand side is for specifying columns
+
+
+```{r results = FALSE}
+b <- subset(Building_Permits, select = c(1, 30))
+b <- b[50000:60000, ]
+View(b)
+                    
+```
+
+<br>
+
+c. Now that we have two separate components of our dataset, let???s merge them together! Realistically, you???d really just create a singular subset with this information together. However, we have a highly specific use case now: one of our subsets only refers to a portion of the entries in our dataset, while the other dataset refers to all of the entries in our dataset
+        1. Merging datasets requires a really, really longwinded and misleading complex function: [`merge()`](https://www.rdocumentation.org/packages/base/versions/3.5.2/topics/merge) (this was a miserable joke by one of your TAs, feel free to send hate mail to Sridhar). Read the documentation, understand the parameters, and merge the datasets based on the `Permit.Number` column into a new variable.
+```{r results = FALSE}
+
+c = merge(a1 ,b)
+View(c)
+
+```
+
+<br>
+
+d. There???s now an interesting phenomenon regarding our dataset: even though the second subset dealt with rows 50,000 to 60,000 (~ 10k entries), our new dataset does not match the ~10k dimension! Why do you think this is? (**hint**: `unique()` might come in handy)
+
+```{r results = FALSE}
+c1<-unique(c)
+View(c1)
+
+```
+
+       <br>
+
+
+e. Let???s take this newly merged dataset, and alphabetize the data based on the `Proposed.Use` column. The [`order()`](https://www.rdocumentation.org/packages/base/versions/3.5.2/topics/order) function will help tremendously!
+        
+```{r results = FALSE}
+d <- with(c, c[order(Building_Permits$Proposed.Use),])
+View(d)
+
+
+```
+
+<br>
+
+f. Take a look at your new, alphabetized dataset. In the  `Proposed.Use` column, we???re missing data for what seems to be a decent amount of column???s entries. Normally, we???d use the `is.na()` or `is.null()` function like we did earlier to check for missing data. However, in this dataset, all empty data are actually considered to be *empty strings*. (Example: ??????). It sounds really counterintuitive but despite these entries being visibly empty, R considers them to be non-empty entries. With this in mind, let???s tackle the missing data:
+    1. Find the number of missing data points in the `Proposed.Use` column. (You???ll need to check which entries are **empty strings**)
+
+```{r results = FALSE}
+e <- sum(d$Proposed.Use=="")
+View(e)
+
+
+```
+  
+<br>
+    
+g. Through a stroke of luck, Dr. Felder recently stumbled on a bit of cash and has decided to quit his job as a professor and invest in real estate full time! (again, a miserable joke). To help him with this, we want to replace all of the missing entries that we found in the `Proposed.Use` column with ???`felder???s penthouse`???
+    * **warning:** this is not an easy task and requires a bit of thinking. [This post](https://stackoverflow.com/questions/5824173/replace-a-value-in-a-data-frame-based-on-a-conditional-if-statement) on StackOverflow is really insightful to approach this problem.
+        * This post converts the existing column to a character datatype with `as.character()` because even though that we can see that the entries in a column are text, R sometimes encodes text-based columns as different data types. To guard against this, we use `as.character()`.
+    * **side note**: side note (optional): sometimes, we want to export datasets that we create so that others can use them! [`write.csv()`](http://rprogramming.net/write-csv-in-r/) is a really helpful way to write any dataframes to .csv files!
+            
+```{r results = FALSE}
+d$Proposed.Use = as.character(d$Proposed.Use)
+d$Proposed.Use[d$Proposed.Use == ""] <- "felder???s penthouse"
+```
+
+
+```
+
+***
+
+### Feedback
+	
+a. How long did it take to complete this homework?
+2 days 
+
+b. How difficult was the homework?
+fifth question was difficult 
+
+c. Which parts did you find useful and which parts were less useful?
+it was a pretty great assignment but dataset was too large and it was difficult to implement small functions 
+
+d. What suggestions do you have regarding the lectures or homework assignments that would improve them?
+it is all good. 
+
+
+          
