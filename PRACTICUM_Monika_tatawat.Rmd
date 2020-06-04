@@ -1,0 +1,167 @@
+---
+title: "DA"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r results= FALSE}
+#Q.1
+myvector = c(2,2,3)
+
+n <- length(myvector)
+
+count <- 1:n
+pages= c()
+value= c(1,1,2)
+
+pages[myvector == value]  
+
+```
+
+
+```{r results= FALSE}
+
+#Q.2
+attach(Midterm2)
+max(Midterm2)
+which.max(Midterm2)
+```
+
+``````{r results= FALSE}
+#Q.3
+
+beverages<-scan(text = "3 4 1 1 3 4 3 3 1 3 2 1 2 1 2 3 2 3 1 1 1 1 4 3 1")
+
+```
+
+```{r}
+#Q.4
+
+barplot(beverages,
+        main= 'Bar chart of beverages',xlab= "Types of beverages 1=soda, 2= diet soda, 3=iced tea,
+        4=water") 
+```
+
+
+```{r}
+#q.5 
+ yy = c(2,3,16,23,14,12,4,13,2,0,0,6,28,31,14,4,8,2,5)
+h= stem(yy)
+plot(h)
+?stem
+stem(yy, scale = 1, width = 80, atom = 1e-08)
+```
+
+```{r}
+#q.6
+fruit= c("apple", "orange", "plum", "guava")
+?apropos()
+apropos(fruit)
+find(fruit)
+```
+
+```{r}
+sals <- c(12,.4,5,2,50,8,3,1,4,.25)
+table(cut(sals, breaks = c(0,1,5,50), labels= c("poor","rich","very rich")))
+```
+
+```{r}
+#q.8
+rnorm(100, mean = 5, sd=3)
+hist(rnorm(100, mean = 5, sd=3))
+
+```
+
+```{r}
+#q.9 
+#by using round() function one could only report x numbers of decimals
+x= 23.56666666
+round(x, digits=2)
+```
+
+
+```{r results=FALSE}
+#Q.10
+smokes <- c("Y", "N", "N", "Y", "N", "Y", "Y", "Y", "N", "Y")
+study <- c(1,2,2,3,3,1,2,1,3,2)
+tmp<-table(smokes,study)
+prop.table(tmp,margin=1)
+```
+
+
+
+
+```{r results=FALSE}
+#Q.11
+prop.table(tmp,margin=2)
+```
+
+
+
+
+#Q.12
+```{r results=FALSE}
+
+prop.table(tmp)
+
+```
+
+
+
+
+```{r results=FALSE}
+#13
+
+y<-which.max(College$Accept)
+College$X[y]
+```
+<br>
+
+14.  Using the data from 13, do private schools accept at the same rate as public schools at a 95% confidence level?
+```{r results=FALSE}
+t.test(College$Accept~College$Private,conf.level=0.95)
+```
+<br>
+
+15.  Using the data from 13, which single variable best explains graduation rates?
+```{r results=FALSE}
+z <- College[,"Grad.Rate"]
+z1 <- College[,3:19]
+cor(z,z1)
+```
+By finding put the correlation between Grad.Rate and all other columns, we get to know that Outstate is the best variable that best explains the graduation rates.
+<br>
+
+16.  Consider the following data (Boxplot.csv):
+```{r results=FALSE}
+boxplot(Boxplot$Site.1,Boxplot$Site.2,Boxplot$Site.3,Boxplot$Site.4)
+mean(Boxplot$Site.1)
+mean(Boxplot$Site.2)
+mean(Boxplot$Site.3)
+mean(Boxplot$Site.4)
+
+
+
