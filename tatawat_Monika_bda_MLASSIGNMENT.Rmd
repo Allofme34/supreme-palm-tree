@@ -1,0 +1,183 @@
+---
+title: "Tatawat_Monika_bda_assignment"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+
+library(moments)
+library(car)
+attach(A3)
+View(A3)
+summary(A3)
+ncol(A3)
+nrow(A3)
+```
+
+
+```{r}
+
+#Q.2 
+#detect outliers
+bx<-boxplot(A3)
+str(bx)
+
+x2 <- A3[!(A3 %in% bx$out)]
+x2
+
+any(is.na(`A3`)) #checking for missing values 
+is.na(`A3`) #checking for NA in data 
+boxplot(`A3`) #checking for outliers 
+nooutliers <- subset(`A3`,`A3`[7]<=250) # creating subset removing outliers 
+boxplot(nooutliers) # outliers removed 
+summary(nooutliers)
+nooutliers<- format(nooutliers, digits=1, nsmall=2) #making all variables to 2 decimal places
+```
+
+
+```{r}
+#Q.3
+plot(A3)
+library(ggplot2)
+ggplot(data = A3) + 
+  geom_point(mapping = aes(x = A3$V1, y = A3$V12))
+
+ggplot(data = A3) + 
+  geom_point(mapping = aes(x = A3$V2, y = A3$V12))
+
+ggplot(data= A3)+ 
+  geom_point(mapping = aes(x = A3$V3, y = A3$V12))
+
+plot(A3$V4, A3$V12, main="Scatterplot Example", 
+     xlab="INDEPENDENT VARIABLE", ylab="DEPENDENT VARIABLE", pch=19)
+
+# Basic Scatterplot Matrix
+pairs(~A3$V12+ V1+V2+V3+V4+V5+V6+V7+V8+V9+V10+V11,data= A3, 
+      main="Simple Scatterplot Matrix")
+
+corr_matrix <- cor(A3)
+
+# with circles
+library(corrplot)
+corrplot(corr_matrix)
+
+# with numbers and lower
+corrplot(corr_matrix,
+         method = 'number',
+         type = "lower")
+
+
+```
+
+
+```{r}
+#Q.4
+glm.fit <- glm(V12 ~ ., data = A3)
+summary(glm.fit)
+confint(glm.fit) # 95% CI for the coefficients
+exp(coef(glm.fit)) # exponentiated coefficients
+exp(confint(glm.fit)) # 95% CI for exponentiated coefficients
+predict(glm.fit, type="response") # predicted values
+residuals(glm.fit, type="deviance") # residuals
+
+```
+
+```{r}
+#q.5 
+library(Metrics)
+lm.fit <- lm(V12 ~ ., data = A3)
+summary(lm.fit)
+train <- A3[1:1120,]
+test <- A3[1120:1599,]
+mod1 <- lm(V12 ~ ., data = train)
+predictions <- predict(mod1, test)
+rmse(test$V12, predictions)
+```
+
+
+```{r}
+library(MASS)
+kmeans(class(A3))
+A4 = as.matrix(A3[,-c(12)])
+kmeans(A4, 4)
+
+
+
+# Determine number of clusters
+numbercluster <- (nrow(A4)-1)*sum(apply(A4,2,var))
+for (i in 2:15) numbercluster[i] <- sum(kmeans(A4, 
+                                               centers=i)$withinss)
+plot(1:15, numbercluster, type="b", xlab="Number of Clusters",
+     ylab="Within groups sum of squares")
+
+# K-Means Cluster Analysis
+fitted <- kmeans(A4, 5) # 5 cluster solution
+# get cluster means 
+aggregate(A4,by=list(fitted$cluster),FUN=mean)
+# append cluster assignment
+A4<- data.frame(A4, fitted$cluster)
+
+# Ward Hierarchical Clustering
+d <- dist(A4, method = "euclidean")  #distance matrix
+fitt <- hclust(d, method="ward.D") 
+plot(fitt) # display dendogram
+groups <- cutree(fitt, k=5) # cut tree into 5 clusters
+# draw dendogram with red borders around the 5 clusters 
+rect.hclust(fitt, k=5, border="red")
+
+
+# Ward Hierarchical Clustering with Bootstrapped p values
+library(pvclust)
+fitt <- pvclust(A4, method.hclust="ward",
+                method.dist="euclidean")
+plot(fitt) # dendogram with p values
+# add rectangles around groups highly supported by the data
+pvrect(fitt, alpha=.95)
+
+# Model Based Clustering
+library(mclust)
+fitt <- Mclust(A4)
+plot(fitt) # plot results 
+summary(fitt) # display the best model
+
+# K-Means Clustering with 5 clusters
+fitt <- kmeans(A4, 5)
+
+# Cluster Plot against 1st 2 principal components
+
+# vary parameters for most readable graph
+library(cluster) 
+clusplot(A4, fit$cluster, color=TRUE, shade=TRUE, 
+         labels=2, lines=0)
+
+# Centroid Plot against 1st 2 discriminant functions
+library(fpc)
+plotcluster(A4, fitt$cluster)
+```
+
+
+
+
